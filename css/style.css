@@ -33,11 +33,11 @@ main {
   padding: 1rem;
 }
 
+.header,
 .footer {
   background: #333;
   color: #fff;
   padding: 1rem;
-  text-align: center;
 }
 
 .link {
@@ -47,7 +47,7 @@ main {
   transition: 0.3s;
 }
 
-.link:hover:not(.card-link) {
+.link:hover {
   border-color: black;
 }
 
@@ -85,10 +85,86 @@ main {
   flex-direction: column;
 }
 
-.navigation-container {
+.header,
+.header__menu {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  gap: clamp(0.25rem, 1.5vw, 1rem);
+}
+
+.logo-img {
+  background: #fff;
+  width: 150px;
+  transition: 0.5s;
+}
+
+.logo-img:hover {
+  box-shadow: 0 17px 8px -16px rgba(255, 255, 255, 0.5);
+}
+
+.dropdown {
+  overflow: hidden;
+  min-width: 150px;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  cursor: pointer;
+  text-shadow: 0.7px 0.7px 0 white;
+}
+
+.summary::after {
+  content: "▼";
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  transition: rotate 0.4s ease-out;
+}
+
+.dropdown-content {
+  overflow: hidden;
+  max-height: 0;
+  margin-top: 1rem;
+  padding-bottom: 3px;
+  transition: max-height 0.5s ease-out;
+}
+
+.dropdown[open] summary~.dropdown-content {
+  max-height: 500px;
+  transition: max-height 1s ease-out;
+}
+
+@supports selector(::details-content) {
+  .dropdown::details-content {
+    content-visibility: visible;
+    transition: height 0.5s ease;
+    height: 0;
+    overflow: clip;
+  }
+
+  .dropdown[open]::details-content {
+    height: calc-size(auto, size + 0.5rem);
+  }
+}
+
+.dropdown[open] .summary::after {
+  rotate: 180deg;
+  transition: rotate 0.4s ease-out;
+}
+
+.dropdown__menu-item:hover {
+  border-color: white;
 }
 
 .card-list {
@@ -116,6 +192,7 @@ main {
 
 .card-link {
   width: 100%;
+  border: none;
 }
 
 .card-img {
@@ -179,6 +256,10 @@ main {
   display: block;
 }
 
+.footer {
+  text-align: center;
+}
+
 @media (max-width: 800px) {
   .profile-container {
     flex-wrap: wrap;
@@ -195,6 +276,10 @@ main {
 }
 
 @media (max-width: 500px) {
+  .header {
+    flex-wrap: wrap;
+  }
+
   .profile-info {
     flex-wrap: wrap;
     gap: 0;
