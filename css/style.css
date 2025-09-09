@@ -230,11 +230,6 @@ main {
   margin-bottom: 1rem;
 }
 
-.region-list li,
-.category-list li {
-  margin-bottom: 0.5rem;
-}
-
 .profile-container {
   display: flex;
   gap: 1rem;
