@@ -3,6 +3,10 @@ export async function getData() {
   const data = await fetch('./data/people.json');
   return data.json();
 }
+export async function getDataById(id) {
+  const data = await getData();
+  return data.filter((item) => item.id === id)[0];
+}
 export async function createCards(city = null, role = null) {
   const data = await getData();
   const cardsContainer = document.querySelector('.card-list');
@@ -17,10 +21,10 @@ export async function createCards(city = null, role = null) {
 
   const html = filtered
     .map(
-      ({ name, city, role, image, alt, date }) => `
+      ({ id, name, city, role, images, alt, date }) => `
     <li class="card">
-      <a href="./post.html" class="link card-link flex-column">
-        <img src="${image}" alt="${alt}" loading="lazy" class="card-img" />
+      <a href="./post.html?id=${id}" class="link card-link flex-column">
+        <img src="./images/${images[0]}" alt="${alt}" loading="lazy" class="card-img" />
         <div class="card-content flex-column">
           <h2 class="card-title">${name}, ${city}, ${role}</h2>
           <time datetime="${date}" class="card-time">${formatDate(date)}</time>
