@@ -4,5 +4,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const city = params.get('city');
   const textTitle = document.querySelectorAll('.region-name');
   textTitle.forEach((elem) => (elem.textContent = city));
-  createCards(city);
+  createCards({ city: city });
 });

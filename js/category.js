@@ -6,5 +6,5 @@ document.addEventListener('DOMContentLoaded', () => {
   textTitle.forEach(
     (elem) => (elem.textContent = role === 'Модель' ? 'Модели' : role + 'ы')
   );
-  createCards(null, role);
+  createCards({ role: role });
 });
