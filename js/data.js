@@ -7,19 +7,36 @@ export async function getDataById(id) {
   const data = await getData();
   return data.filter((item) => item.id === id)[0];
 }
-export async function createCards(city = null, role = null) {
-  const data = await getData();
+
+export function filterData(data, filters = {}) {
+  let filtered = data;
+  for (const [key, value] of Object.entries(filters)) {
+    if (value) filtered = filtered.filter((item) => item[key] === value);
+  }
+  return filtered;
+}
+
+export function sortData(data, sortField = 'date', order = 'desc') {
+  return data.toSorted((a, b) => {
+    if (!a[sortField] || !b[sortField]) return 0;
+    const valA = a[sortField];
+    const valB = b[sortField];
+    if (sortField === 'date') {
+      return order === 'asc'
+        ? new Date(valA) - new Date(valB)
+        : new Date(valB) - new Date(valA);
+    }
+  });
+}
+
+export function renderCards(data) {
   const cardsContainer = document.querySelector('.card-list');
   if (!cardsContainer) return;
-  let filtered = data;
-  if (city) {
-    filtered = filtered.filter((item) => item.city === city);
+  if (!data) {
+    cardsContainer.innerHTML = '<li class="empty-list-message">Нет результатов<li>';
+    return;
   }
-  if (role) {
-    filtered = filtered.filter((item) => item.role === role);
-  }
-
-  const html = filtered
+  const html = data
     .map(
       ({ id, name, city, role, images, alt, date }) => `
     <li class="card">
@@ -34,6 +51,13 @@ export async function createCards(city = null, role = null) {
   `
     )
     .join('');
-
   cardsContainer.innerHTML = html;
+}
+
+export async function createCards(filters = {}, sortField = 'date', order = 'desc') {
+  const data = await getData();
+  const filtered = filterData(data, filters);
+  filtered.length > 0
+    ? renderCards(sortData(filtered, sortField, order))
+    : renderCards(null);
 }
