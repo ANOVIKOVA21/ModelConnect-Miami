@@ -173,10 +173,27 @@ main {
   border-color: white;
 }
 
+.cards-sort {
+  font-family: inherit;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+
+#sortCards:hover {
+  transform: scale(1.1);
+}
+
 .card-list {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.empty-list-message {
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .card {
