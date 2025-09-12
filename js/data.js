@@ -1,11 +1,24 @@
 import { formatDate } from './general.js';
 export async function getData() {
   const data = await fetch('./data/people.json');
-  return data.json();
+  const staticData = await data.json();
+  const localData = JSON.parse(localStorage.getItem('people')) || [];
+  return [...staticData, ...localData];
 }
 export async function getDataById(id) {
   const data = await getData();
   return data.filter((item) => item.id === id)[0];
+}
+
+export function saveProfileToLocalStorage(profile) {
+  const saved = JSON.parse(localStorage.getItem('people')) || [];
+  const id = Date.now();
+  const date = new Date().toISOString();
+
+  const newProfile = { id, date, images: ['default.avif'], ...profile };
+  saved.push(newProfile);
+  localStorage.setItem('people', JSON.stringify(saved));
+  return newProfile;
 }
 
 export function filterData(data, filters = {}) {
